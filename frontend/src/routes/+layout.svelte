@@ -1,5 +1,14 @@
 <script>
-	import '../app.css';
+	import NavBar from '$lib/components/NavBar.svelte';
+	import '../app.css'; // Assuming you have a global CSS file
 </script>
 
-<slot />
+<NavBar />
+
+<main>
+	<slot />
+</main>
+
+<footer>
+	<!-- Footer content -->
+</footer>
