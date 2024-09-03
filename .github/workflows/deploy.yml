@@ -1,0 +1,35 @@
+name: Deploy to Digital Ocean
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to Digital Ocean
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          cd ~/fullstack-blogging-app
+          git pull origin main
+          
+          # Backend
+          cd backend
+          npm install
+          npm start  # If you have a build step for the backend
+          
+          # Frontend
+          cd ../frontend
+          npm install
+          npm run build
+          
+          # Restart services
+          cd ..
+          pm2 restart backend
+          pm2 restart frontend  # If you're serving the frontend with Node.js
