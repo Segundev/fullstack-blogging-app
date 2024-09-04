@@ -9,12 +9,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - name: Debug Information
+      run: |
+        echo "Debugging SSH connection"
+        echo "DO_HOST is set: ${{ secrets.DO_HOST != '' }}"
+        echo "DO_USERNAME is set: ${{ secrets.DO_USERNAME != '' }}"
+        echo "DO_SSH_PRIVATE_KEY is set: ${{ secrets.DO_SSH_PRIVATE_KEY != '' }}"
+        
     - name: Deploy to Digital Ocean
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.KEY }}
+        host: ${{ secrets.DO_HOST }}
+        username: ${{ secrets.DO_USERNAME }}
+        key: ${{ secrets.DO_SSH_PRIVATE_KEY }}
         script: |
           cd ~/fullstack-blogging-app
           git pull origin main
